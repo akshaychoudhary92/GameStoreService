@@ -4,9 +4,11 @@ import com.company.customerservice.dao.CustomerDao;
 import com.company.customerservice.model.Customer;
 import com.company.customerservice.viewmodel.CustomerViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class CustomerServiceLayer {
     //customer api
 
@@ -14,7 +16,20 @@ public class CustomerServiceLayer {
     CustomerDao customerDao;
 
     public CustomerViewModel addCustomer(CustomerViewModel custVm){
-        return null;
+        Customer customer = new Customer();
+        customer.setFirstName(custVm.getFirstName());
+        customer.setLastName(custVm.getLastName());
+        customer.setCity(custVm.getCity());
+        customer.setZip(custVm.getZip());
+        customer.setStreet(custVm.getStreet());
+        customer.setPhone(custVm.getPhone());
+        customer.setEmail(custVm.getEmail());
+
+        Customer savedCustomer = customerDao.addCustomer(customer);
+
+        CustomerViewModel savedCustVm = buildCVM(savedCustomer);
+        return savedCustVm;
+
     }
 
     public CustomerViewModel getCustomer(int customerId){

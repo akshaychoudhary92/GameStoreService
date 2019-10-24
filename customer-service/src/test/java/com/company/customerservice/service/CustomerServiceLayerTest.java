@@ -10,6 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doReturn;
 
@@ -72,6 +75,8 @@ class CustomerServiceLayerTest {
 
 
 
+
+
     }
 
     @Test
@@ -86,16 +91,36 @@ class CustomerServiceLayerTest {
 
     @Test
     void getCustomer() {
-        
-
+    doReturn(outputCustomer).when(customerDao).getCustomer(1);
+    CustomerViewModel actualOutput = service.getCustomer(1);
+    assertEquals(outputCvm, actualOutput);
     }
 
     @Test
     void getAllCustomers() {
+        doReturn(outputCustomer).when(customerDao).getCustomer(1);
+        List<Customer> listOfCustomers = new ArrayList<>();
+        listOfCustomers.add(outputCustomer);
+
+
+        CustomerViewModel cust1 = service.getCustomer(1);
+        List<CustomerViewModel> listOfCustomerVMs = new ArrayList<>();
+        listOfCustomerVMs.add(cust1);
+
+        doReturn(listOfCustomers).when(customerDao).getAllCustomers();
+        List<CustomerViewModel> listFromDb = service.getAllCustomers();
+
+
+
+
+        assertEquals(1,listOfCustomers.size());
+
     }
 
     @Test
     void updateCustomer() {
+
+
     }
 
     @Test

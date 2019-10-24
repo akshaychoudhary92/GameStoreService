@@ -6,13 +6,19 @@ import com.company.customerservice.viewmodel.CustomerViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class CustomerServiceLayer {
-    //customer api
 
     @Autowired
+    public CustomerServiceLayer(CustomerDao customerDao) {
+        this.customerDao = customerDao;
+    }
+    //customer api
+
+
     CustomerDao customerDao;
 
     public CustomerViewModel addCustomer(CustomerViewModel custVm){
@@ -33,14 +39,51 @@ public class CustomerServiceLayer {
     }
 
     public CustomerViewModel getCustomer(int customerId){
-        return null;
+        Customer customer = customerDao.getCustomer(customerId);
+
+        CustomerViewModel cvm = new CustomerViewModel();
+        cvm.setCustomerId(customer.getCustomerId());
+        cvm.setZip(customer.getZip());
+        cvm.setStreet(customer.getStreet());
+        cvm.setPhone(customer.getPhone());
+        cvm.setLastName(customer.getLastName());
+        cvm.setFirstName(customer.getFirstName());
+        cvm.setEmail(customer.getEmail());
+        cvm.setCity(customer.getCity());
+
+        return cvm;
+
+
     }
 
     public List<CustomerViewModel> getAllCustomers(){
-        return null;
+        List<Customer> customer = customerDao.getAllCustomers();
+
+        List<CustomerViewModel> customerCvm = new ArrayList<>();
+
+        System.out.println(customer.toString());
+
+
+        for(int i = 0; i < customer.size(); i++){
+            CustomerViewModel cvm = new CustomerViewModel();
+            System.out.println(customer.get(i).getFirstName());
+            cvm.setCustomerId(customer.get(i).getCustomerId());
+            cvm.setCity(customer.get(i).getCity());
+            cvm.setEmail(customer.get(i).getEmail());
+            cvm.setFirstName(customer.get(i).getFirstName());
+            cvm.setLastName(customer.get(i).getLastName());
+            cvm.setPhone(customer.get(i).getPhone());
+            cvm.setStreet(customer.get(i).getStreet());
+            cvm.setZip(customer.get(i).getZip());
+            //System.out.println(customer.get(i).getClass());
+            customerCvm.add(cvm);
+        }
+
+        return customerCvm;
     }
 
     public void updateCustomer(CustomerViewModel customer){
+
 
     }
 
